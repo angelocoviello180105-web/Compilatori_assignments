@@ -3,11 +3,10 @@
 
 int main(){
     int x[5], y[5];
-    int cond = 5;
     int j = 0;
     int i = 0;
 
-    if(j < cond){
+    if(j < 5){
         do{
             x[i] = i;
             i++;
@@ -15,7 +14,7 @@ int main(){
     }
 
     // condizione logicamente equivalente alla precedente ma invertita
-    if(cond > j){
+    if(5 > j){
         i = 0;
         do{
             y[i] = x[i] + 1;

@@ -3,11 +3,10 @@
 
 int main() {
     int x[5], y[5];
-    int cond = 5;
     int j = 0;
     int i = 0;
 
-    if(j < cond){
+    if(j < 5){
         do{
             x[i] = i;
             i++;
@@ -15,7 +14,7 @@ int main() {
     }
 
     // diverso flusso di controllo: '<=' invece di '<'
-    if(j <= cond){
+    if(j <= 5){
         i = 0;
         do{
             y[i] = x[i] + 1;
