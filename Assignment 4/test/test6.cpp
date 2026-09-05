@@ -14,7 +14,7 @@ int main() {
         }while(i < 5);
     }
 
-    // flusso di controllo differente: '<=' invece di '<'
+    // diverso flusso di controllo: '<=' invece di '<'
     if(j <= cond){
         i = 0;
         do{
