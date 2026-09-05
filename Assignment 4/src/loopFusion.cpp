@@ -29,7 +29,7 @@ struct LoopFusionPass: PassInfoMixin<LoopFusionPass>{
     }
 
 
-	bool isInductionVariables(Loop *L0, Loop *L1){
+	bool areInductionVariables(Loop *L0, Loop *L1){
 		PHINode *IV0 = L0->getCanonicalInductionVariable();
         PHINode *IV1 = L1->getCanonicalInductionVariable();
 
@@ -130,7 +130,7 @@ struct LoopFusionPass: PassInfoMixin<LoopFusionPass>{
 	}
 
 
-	bool isCFE(Loop *L0, Loop *L1, DominatorTree &DT, PostDominatorTree &PDT, ScalarEvolution &SE){
+	bool areCFE(Loop *L0, Loop *L1, DominatorTree &DT, PostDominatorTree &PDT, ScalarEvolution &SE){
 		bool L0Guarded = L0->isGuarded();
 		bool L1Guarded = L1->isGuarded();
 
@@ -306,7 +306,7 @@ struct LoopFusionPass: PassInfoMixin<LoopFusionPass>{
 				continue;
 			}
 
-			if(!isCFE(L0, L1, DT, PDT, SE)){
+			if(!areCFE(L0, L1, DT, PDT, SE)){
 				outs() << "I due loop non sono control flow equivalent\n";
 				continue;
 			}
@@ -321,7 +321,7 @@ struct LoopFusionPass: PassInfoMixin<LoopFusionPass>{
 				continue;
 			}
 
-			if(!isInductionVariables(L0, L1)){
+			if(!areInductionVariables(L0, L1)){
 				outs() << "Impossibile trovare le Induction Variables per entrambi i loop\n";
 				continue;
 			}
@@ -371,10 +371,9 @@ struct LoopFusionPass: PassInfoMixin<LoopFusionPass>{
 
 
 	void updateInductionVariables(Loop *L0, Loop *L1){
-		PHINode *L0InductionVariable = L0->getCanonicalInductionVariable();
-    	PHINode *L1InductionVariable = L1->getCanonicalInductionVariable();
+		PHINode *L1InductionVariable = L1->getCanonicalInductionVariable();
 
-		L1InductionVariable->replaceAllUsesWith(L0InductionVariable);
+		L1InductionVariable->replaceAllUsesWith(L0->getCanonicalInductionVariable());
 		L1InductionVariable->eraseFromParent();
 	}
 
@@ -385,7 +384,7 @@ struct LoopFusionPass: PassInfoMixin<LoopFusionPass>{
 		// exiting block di L0
 		BasicBlock *L0ExitingBlock = L0->getExitingBlock();
 
-		// i loop sono guarded? --> si modifica il ramo false della guardia di L0 per saltare alla exit di L1
+		// i loop sono guarded? --> si modifica il ramo false della guardia di L0 per saltare all'exit block di L1
 		if(L0->isGuarded() && L1->isGuarded())
 			setTerminator(L0->getLoopGuardBranch()->getParent(), L1ExitBlock, 1);
 
