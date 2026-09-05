@@ -371,9 +371,10 @@ struct LoopFusionPass: PassInfoMixin<LoopFusionPass>{
 
 
 	void updateInductionVariables(Loop *L0, Loop *L1){
-		PHINode *L1InductionVariable = L1->getCanonicalInductionVariable();
+		PHINode *L0InductionVariable = L0->getCanonicalInductionVariable();
+    	PHINode *L1InductionVariable = L1->getCanonicalInductionVariable();
 
-		L1InductionVariable->replaceAllUsesWith(L0->getCanonicalInductionVariable());
+		L1InductionVariable->replaceAllUsesWith(L0InductionVariable);
 		L1InductionVariable->eraseFromParent();
 	}
 
