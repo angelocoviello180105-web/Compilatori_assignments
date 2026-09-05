@@ -218,7 +218,7 @@ struct LoopFusionPass: PassInfoMixin<LoopFusionPass>{
 				return false;
 
 			// gli exit blocks di L0 devono puntare alla guardia di L1
-			SmallVector<BasicBlock *, 4> exitBlocks;
+			SmallVector<BasicBlock*, 4> exitBlocks;
 			L0->getExitBlocks(exitBlocks);
 			for(BasicBlock *exit: exitBlocks){
 				// l'uscita non é direttamente la guardia di L1?
@@ -234,7 +234,7 @@ struct LoopFusionPass: PassInfoMixin<LoopFusionPass>{
 		// 2. i loop sono entrambi non guarded
 		else if (!L0Guarded && !L1Guarded){
 			// exit blocks di L0
-			SmallVector<BasicBlock *, 4> exitBlocks;
+			SmallVector<BasicBlock*, 4> exitBlocks;
 			L0->getExitBlocks(exitBlocks);
 
 			// preheader di L1
