@@ -371,10 +371,9 @@ struct LoopFusionPass: PassInfoMixin<LoopFusionPass>{
 
 
 	void updateInductionVariables(Loop *L0, Loop *L1){
-		PHINode *L0InductionVariable = L0->getCanonicalInductionVariable();
-    	PHINode *L1InductionVariable = L1->getCanonicalInductionVariable();
+		PHINode *L1InductionVariable = L1->getCanonicalInductionVariable();
 
-		L1InductionVariable->replaceAllUsesWith(L0InductionVariable);
+		L1InductionVariable->replaceAllUsesWith(L0->getCanonicalInductionVariable());
 		L1InductionVariable->eraseFromParent();
 	}
 
@@ -406,11 +405,12 @@ struct LoopFusionPass: PassInfoMixin<LoopFusionPass>{
 
 
 	PreservedAnalyses run(Function &F, FunctionAnalysisManager &AM){
-        LoopInfo &LI = AM.getResult<LoopAnalysis>(F);
-        DominatorTree &DT = AM.getResult<DominatorTreeAnalysis>(F);
-        PostDominatorTree &PDT = AM.getResult<PostDominatorTreeAnalysis>(F);
+		// estrazione delle analisi necessarie
+		PostDominatorTree &PDT = AM.getResult<PostDominatorTreeAnalysis>(F);
 		ScalarEvolution &SE = AM.getResult<ScalarEvolutionAnalysis>(F);
+        DominatorTree &DT = AM.getResult<DominatorTreeAnalysis>(F);
 		DependenceInfo &DI = AM.getResult<DependenceAnalysis>(F);
+		LoopInfo &LI = AM.getResult<LoopAnalysis>(F);
 
     	// vettore di top-level loop
 		std::vector<Loop*> loops;

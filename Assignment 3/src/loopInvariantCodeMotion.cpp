@@ -166,8 +166,8 @@ struct LoopInvariantCodeMotionPass: PassInfoMixin<LoopInvariantCodeMotionPass>{
 
     PreservedAnalyses run(Function &F, FunctionAnalysisManager &AM){
         // estrazione delle analisi necessarie
-        LoopInfo &LI = AM.getResult<LoopAnalysis>(F);
         DominatorTree &DT = AM.getResult<DominatorTreeAnalysis>(F);
+        LoopInfo &LI = AM.getResult<LoopAnalysis>(F);
 
         // si scorrono e processano i loop della funzione
         for(auto &L: LI)
