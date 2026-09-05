@@ -181,7 +181,7 @@ struct LoopFusionPass: PassInfoMixin<LoopFusionPass>{
 			BasicBlock *L0Header = L0->getHeader();
 			BasicBlock *L1Header = L1->getHeader();
 
-			// Controlliamo la dominanza sui basic block degli header
+			// controllo di dominanza sui BB degli header
 			if(DT.dominates(L0Header, L1Header) && PDT.dominates(L1Header, L0Header))
 				return true;
 		}
